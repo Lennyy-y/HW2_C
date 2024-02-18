@@ -2,37 +2,36 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int addAirport(AirportManager* arr, Airport* ap)
+int addAirport(AirportManager* apmP)
 {
-    if (!strlen(ap->code)|| !ap->name || !ap->country)
-        return 0;
-    for (int i = 0 ; i < arr->airportCount ; i++)
+    Airport* ap = malloc(sizeof(Airport));
+
+    for (int i = 0 ; i < apmP->airportCount ; i++)
     {
-        if(isSameAirport(arr->allAirportPointers[i], ap))
+        if(isSameAirport(apmP->allAirports[i], ap))
             return 0;
     }
-    arr->allAirportPointers[arr->airportCount++] = ap;
+    initAirport(ap);
+    apmP->allAirports[apmP->airportCount++] = ap;
     return 1;
 }
-Airport* findAirportByCode(AirportManager* arr, const char* IATA)
+Airport* findAirportByCode(AirportManager* arr, const char IATA[IATA_LEN + 1])
 {
     Airport* ap;
-    Airport ap_search = {"", "", "IATA"};
-    ap = bsearch(&ap_search, arr->allAirportPointers, arr->airportCount, sizeof(Airport),
+    Airport ap_search = {"", "", *IATA};
+    ap = bsearch(&ap_search, arr->allAirports, arr->airportCount, sizeof(Airport),
                  (int (*)(const void *, const void *)) isSameAirport);
     return ap;
 }
 void initAirportManager(AirportManager* pApm)
 {
-    printf("Enter amount of airports\n");
-    scanf("%d", &pApm->airportCount);
-    initAirportArr(pApm->allAirportPointers, pApm->airportCount);
+    pApm->airportCount = 0;
 }
 void printAirportManager(const AirportManager* pApm)
 {
     if(pApm->airportCount != 0) {
         printf("There are %d airports:\n", pApm->airportCount);
-        printAirportArr((const Airport **) pApm->allAirportPointers, pApm->airportCount);
+        printAirportArr((const Airport **) pApm->allAirports, pApm->airportCount);
     }
     else
         printf("Airport Manager has 0 airports\n");

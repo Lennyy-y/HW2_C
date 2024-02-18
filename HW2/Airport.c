@@ -19,44 +19,41 @@ int isAirportCode(Airport* ap, char* IATA)
         return 1;
     return 0;
 }
-#define MAX_AP_NAME 255
 char* getAirportName()
 {
-    char* apName = malloc(MAX_AP_NAME);
+    char* apName = malloc(MAX_STR_LEN);
     printf("Enter airport name:\n");
-    myGets(apName, MAX_AP_NAME);
+    myGets(apName, MAX_STR_LEN);
     trimWhiteSpace(apName);
     numOfWords(apName);
     capitalizeFirstLetters(apName);
     return apName;
 }
-int test()
-{
-    return 4;
-}
+
 void initAirport(Airport* pAp)
 {
     pAp->name = getAirportName();
-    printf("Enter airport country:\n");
-    myGets(pAp->country, MAX_STR_LEN);
+    pAp->country = getStrExactLength("Enter airport country:");
     printf("Enter IATA (Max length %d)\n", IATA_LEN);
     myGets(pAp->code, IATA_LEN + 1);
 }
-int initAirportArr(Airport* apArr[], int size)
+int initAirportArr(Airport** apArr, int size)
 {
     for (int i = 0 ; i < size; i++)
     {
-        apArr[i] = malloc(sizeof(Airport*));
+        apArr[i] = malloc(sizeof(Airport));
         if(!apArr[i])
             return 0;
         initAirport(apArr[i]);
     }
     return 1;
 }
-void freeAirportArr(Airport* apArr[], int size)
+void freeAirportArr(Airport** apArr, int size)
 {
     for(int i = 0 ; i < size; i++) {
         free(apArr[i]->name);
+        free(apArr[i]->country);
+        free(apArr[i]->code);
         free(apArr[i]);
     }
 }

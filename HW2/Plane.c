@@ -16,13 +16,16 @@ void initPlane(Plane* pPl)
     pPl->type = getPlaneType();
     pPl->serialNum = serialCounter++;
 }
-void initPlaneArr(Plane* plArr, int size)
+int initPlaneArr(Plane** plArr, int size)
 {
-    plArr = malloc(size*sizeof(Plane));
     for (int i = 0 ; i < size ; i++)
     {
-        initPlane(&plArr[i]);
+        plArr[i] = malloc(sizeof(Plane));
+        if(!plArr[i])
+            return 0;
+        initPlane(plArr[i]);
     }
+    return 1;
 }
 planeType getPlaneType()
 {
@@ -39,12 +42,15 @@ void printPlane(const Plane* pPl)
 {
     printf("Plane type: %s\nSerial number: %d\n", planeTypes[pPl->type], pPl->serialNum);
 }
-void printPlaneArr(const Plane* plArr, int size)
+void printPlaneArr(const Plane** plArr, int size)
 {
     for (int i = 0 ; i < size ; i++)
-        printPlane(plArr+i*sizeof(Plane));
+        printPlane(plArr[i]);
 }
-void freePlaneArr(Plane* plArr, int size)
+void freePlaneArr(Plane** plArr, int size)
 {
-    free(plArr);
+    for(int i = 0 ; i < size ; i++)
+    {
+        free(plArr[i]);
+    }
 }

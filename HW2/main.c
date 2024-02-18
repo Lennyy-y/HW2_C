@@ -11,11 +11,14 @@ int main() {
 //    printAirportManager(&apm);
 //    initAirportManager(&apm);
 //    printAirportManager(&apm);
-//    freeAirportArr(apm.allAirportPointers, apm.airportCount);
+//    freeAirportArr(apm.allAirports, apm.airportCount);
 
-    Airline al = {0};
-    printAirline(&al);
-    initAirline(&al);
-    printAirline(&al);
-    freePlaneArr(al.allPlanes, al.planeCount);
+    Airline *al = malloc(sizeof(Airline));
+//    printAirline(al);
+    initAirline(al);
+    printf("%d\n", al->planeCount);
+    printAirline(al);
+//    if(al->allPlanes)
+//        freePlaneArr(&al->allPlanes, al->planeCount);
+    free(al);
 }

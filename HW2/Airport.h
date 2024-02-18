@@ -5,7 +5,7 @@
 typedef struct
 {
     char* name;
-    char country[MAX_STR_LEN];
+    char* country;
     char code[IATA_LEN + 1];
 
 }Airport;

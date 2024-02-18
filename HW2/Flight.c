@@ -29,8 +29,8 @@ void initFlight(Flight* pFl)
     myGets(pFl->departureCode, IATA_LEN + 1);
     printf("Enter arrival IATA:\n");
     myGets(pFl->arrivalCode, IATA_LEN + 1);
-    initPlane(&(pFl->plane));
-    initDate(&(pFl->flightDate));
+    initPlane(&pFl->plane);
+    initDate(&pFl->flightDate);
 }
 int initFlightArr(Flight** flArr, int count)
 {

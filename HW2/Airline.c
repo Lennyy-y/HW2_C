@@ -1,5 +1,6 @@
 #include "Airline.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "generalStrings.h"
 
 int addFlight(Airline* arl, Flight* fl)
@@ -11,7 +12,7 @@ int addFlight(Airline* arl, Flight* fl)
 }
 void addPlane(Airline* arl, Plane* pl)
 {
-    arl->allPlanes[arl->flightCount++] = *pl;
+    arl->allPlanes[arl->planeCount++] = *pl;
 }
 void doPrintFlightsWithPlaneType(Airline* arl, planeType planeT)
 {
@@ -24,29 +25,32 @@ void doPrintFlightsWithPlaneType(Airline* arl, planeType planeT)
 #define MAX_AIRLINE_FLIGHTS 2
 int initAirline(Airline* pAl)
 {
+    pAl->airlineName = malloc(MAX_STR_LEN);
     printf("Enter airline name:\n");
     myGets(pAl->airlineName, MAX_STR_LEN);
     pAl->flightCount = 0;
-    if(!initFlightArr(pAl->allFlights, MAX_AIRLINE_FLIGHTS))
-        return 0;
-    pAl->flightCount = (int)(sizeof(*(pAl->allFlights)));
+    pAl->planeCount = 0;
+    printf("Enter flight amount\n");
+    scanf("%d", &pAl->flightCount);
+    pAl->allFlights = malloc(pAl->flightCount*sizeof(Flight*));
+    initFlightArr(pAl->allFlights, pAl->flightCount);
+
     printf("Enter plane amount\n");
-    scanf("%d", &(pAl->planeCount));
-    initPlaneArr(pAl->allPlanes, pAl->planeCount);
+    scanf("%d", &pAl->planeCount);
+    printf("%d\n", pAl->planeCount);
+    pAl->allPlanes = malloc(pAl->planeCount*sizeof(Plane));
+    initPlaneArr(&pAl->allPlanes, pAl->planeCount);
     return 1;
 
 
 }
 void printAirline(const Airline* pAl)
 {
-    if(pAl->flightCount != 0) {
         printf("Airline name %s has %d planes and %d flights.\n", pAl->airlineName, pAl->planeCount, pAl->flightCount);
-        printf("Planes:\n");
-        printPlaneArr(pAl->allPlanes, pAl->planeCount);
+        printf("List of planes:\n");
+        printPlaneArr((const Plane **) pAl->allPlanes, pAl->planeCount);
         printf("\nFlights:\n");
         printFlightArr((const Flight **) pAl->allFlights, pAl->flightCount);
-    }
-    else
-        printf("Airline has no name or flights.\n");
+
 }
 

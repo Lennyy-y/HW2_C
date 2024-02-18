@@ -3,11 +3,11 @@
 #include "Plane.h"
 typedef struct
 {
-    char airlineName[MAX_STR_LEN];
+    char* airlineName;
     int flightCount;
     Plane* allPlanes;
     int planeCount;
-    Flight* allFlights[];
+    Flight** allFlights;
 }Airline;
 
 int addFlight(Airline* arl, Flight* fl);

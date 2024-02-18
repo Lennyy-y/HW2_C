@@ -4,9 +4,9 @@
 
 int isValidDate(Date* d)
 {
+    if (d->day < 0)
+        return 0;
     switch (d->month) {
-        if (d->day < 0)
-            return 0;
         case 1: case 3: case 5: case 7: case 8: case 10: case 12:
            if (d->day > 31)
                return 0;
@@ -28,7 +28,7 @@ int isValidDate(Date* d)
    return 1;
 }
 #define MAX_INPUT_SIZE 12
-#define SEPERATOR '##'
+#define SEPARATOR '##'
 void initDate(Date* pD)
 {
     do {
